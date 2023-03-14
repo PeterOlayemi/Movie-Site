@@ -1,0 +1,19 @@
+{%extends 'base.html' %}
+
+{%block content%}
+    <h2>Search Series</h2>
+    <form method="post" action="{% url 'seriesearch' %}">
+        {%csrf_token%}
+        <input type="text" name="q" placeholder="Enter Title\Category\Genre\Lang\Release Year">
+        <input type="submit" value="Search">
+    </form>
+    <br><hr><br>
+    {%if request.method == 'POST' %}
+        <h2>{{obj_c}} result{{obj_c|pluralize}} found</h2><hr><br>
+        {%for obj in obj%}
+        <img src="{{obj.cover_picture.url}}" style="height:400px; width:400px;">
+        <p><a href="{% url 'seriesdetail' obj.title obj.pk %}">{{obj.title}}({{obj.release_year}})</a> &nbsp; &nbsp; Category: <a href="{% url 'category' obj.category %}">{{obj.category}}</a></p>
+        <p>{{obj.date_uploaded}}</p><br><hr><br>
+        {%endfor%}
+    {%endif%}
+{%endblock%}

@@ -1,0 +1,19 @@
+{%extends 'base.html' %}
+
+{%block content%}
+    {% if obj or data %}
+        <h2>Latest Uploads</h2><br><br>
+        {%for obj in obj%}
+        <img src="{{obj.cover_picture.url}}" style="height:400px; width:400px;">
+        <p><a href="{% url 'movdetail' obj.title obj.pk %}">{{obj.title}}({{obj.release_year}})</a> &nbsp; &nbsp; Category: <a href="{% url 'category' obj.category %}">{{obj.category}}</a></p>
+        <p>{{obj.date_uploaded}}</p><br><hr><br>
+        {%endfor%}
+        {%for data in data%}
+        <img src="{{data.cover_picture.url}}" style="height:400px; width:400px;">
+        <p><a href="{% url 'seriesdetail' data.title data.pk %}">{{data.title}}({{data.release_year}})</a> &nbsp; &nbsp; Category: <a href="{% url 'category' data.category %}">{{data.category}}</a></p>
+        <p>{{data.date_uploaded}}</p><br><hr><br>
+        {%endfor%}
+    {%else%}
+        <p>No movies at the moment</p>
+    {%endif%}
+{%endblock%}

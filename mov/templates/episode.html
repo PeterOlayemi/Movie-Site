@@ -1,0 +1,45 @@
+{%extends 'base.html' %}
+
+{%block content%}
+    <h2>{{obj.season.series}} Season {{obj.season.season_number}} Episode {{obj.episode_number}}</h2>
+    {%if obj.title%}
+        <p>{{obj.title}}</p>
+    {%endif%}
+    <p><b>Category:</b> <a href="{% url 'category' obj.season.series.category %}">{{obj.season.series.category}}</a> &nbsp; &nbsp; <b>Date Added:</b> {{obj.date_uploaded}} &nbsp; &nbsp; <b>Duration:</b> {{obj.duration}} &nbsp; &nbsp; <b>Review{{data_c|pluralize}}:</b> {{data_c}}</p>
+    <a href="{% url 'season' obj.season.series obj.season.season_number obj.season.pk %}">Back</a><br><br><br><br>
+    <img src="{{obj.season.series.cover_picture.url}}" style="height:400px; width:400px;"><br>
+    <p>{{obj.description}}</p>
+    <p><b>{{obj.season.series}}</b></p>
+    <p><b>Season Number:</b> {{obj.season.season_number}}</p>
+    <p><b>Episode Number:</b> {{obj.episode_number}}</p>
+    {%if obj.title%}
+        <p><b>Episode Title:</b> {{obj.title}}</p>
+    {%endif%}
+    <p><b>Release Date:</b> {{obj.release_date}}</p>
+    <p><b>Language:</b> {{obj.season.series.language}}</p>
+    <div style="font-size: 30px; text-align: center;"><a href="{{obj.movie.url}}" download><b>DOWNLOAD NOW</b></a></div>
+    <br><br><hr><br>
+    <h2>Add Review</h2>
+    <form method="post">
+        {%if user.is_authenticated%}{%else%}<p>Make sure you are <a href="{% url 'login' %}">Logged In</a> before adding your review</p>{%endif%}
+        {%csrf_token%}
+        {{form.as_p}}
+        <input type="submit" value="add">
+    </form>
+    <br><br><hr><br>
+    <h2>Review{{data_c|pluralize}} ({{data_c}})</h2>
+    {% for data in data %}
+        {% if data.is_parent %}
+            <p>- &nbsp; {{data.content}}</p>
+            <i>&nbsp; &nbsp; By {{data.writer.username}} on {{data.date}} {%if data.writer == request.user %}<a href="{% url 'delreview' data.pk %}">Delete</a>{%else%}<a href="{% url 'reply' data.pk %}">Reply</a>{%endif%}</i><br>{%if data.children%}{%else%}<hr>{%endif%}
+        {%endif%}
+        {% for reply in data.children %}
+            <div style="padding-left: 3%;">
+                <p>- &nbsp; {{reply.content}}</p>
+                <i>&nbsp; &nbsp; By {{reply.writer.username}} on {{reply.date}} {%if reply.writer == request.user %}<a href="{% url 'delreview' reply.pk %}">Delete</a>{%else%}<a href="{% url 'reply' data.pk %}">Reply</a>{%endif%}</i><br><hr>
+            </div>
+        {%endfor%}
+    {%empty%}
+        <p>No reviews on this episode</p>
+    {%endfor%}
+{%endblock%}

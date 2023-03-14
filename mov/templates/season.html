@@ -1,0 +1,14 @@
+{%extends 'base.html' %}
+
+{%block content%}
+    <h2>{{obj.series}} Season {{obj.season_number}} ({{data_c}} Episode{{data_c|pluralize}})</h2>
+    <a href="{% url 'seriesdetail' obj.series obj.series.pk %}">Back</a><br><br>
+    {%for data in data%}
+        <img src="{{obj.series.cover_picture.url}}" style="height:250px; width:250px;">
+        <p><a href="{% url 'episode' obj.series obj.season_number data.episode_number data.pk %}">Season {{obj.season_number}} Episode {{data.episode_number}}</a></p>
+        {%if data.title%}
+            <p>{{data.title}}</p>
+        {%endif%}
+        <i>{{data.date_uploaded}}</i><br><hr><br>
+    {%endfor%}
+{%endblock%}

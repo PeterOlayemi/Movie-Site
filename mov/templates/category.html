@@ -1,0 +1,30 @@
+{%extends 'base.html' %}
+
+{%block content%}
+    <h2>{{categ.area}} ({{count}} result{{count|pluralize}})</h2><br><hr><br>
+    {% if obj or data %}
+        {%for obj in obj%}
+        <img src="{{obj.cover_picture.url}}" style="height:400px; width:400px;">
+        <p><a href="{% url 'movdetail' obj.title obj.pk %}">{{obj.title}}({{obj.release_year}})</a>
+        <p>{{obj.date_uploaded}}</p><br><hr><br>
+        {%endfor%}
+        {%for data in data%}
+        <img src="{{data.cover_picture.url}}" style="height:400px; width:400px;">
+        <p><a href="{% url 'seriesdetail' data.title data.pk %}">{{data.title}}({{data.release_year}})</a>
+        <p>{{data.date_uploaded}}</p><br><hr><br>
+        {%endfor%}
+        {% if obj.has_previous %}
+            <a href="?page={{ obj.previous_page_number }}">&laquo; Previous Page</a> &nbsp; &nbsp; 
+        {% endif %}
+        {% if obj.has_next %}
+            <a href="?page={{ obj.next_page_number }}"> Next Page &raquo;</a> &nbsp; &nbsp;
+        {% endif %}
+        {% if data.has_previous %}
+            <a href="?page={{ data.previous_page_number }}">&laquo; Previous Page</a> &nbsp; &nbsp;
+        {% endif %}
+        {% if data.has_next %}
+            <a href="?page={{ data.next_page_number }}"> Next Page &raquo;</a> &nbsp; &nbsp;
+        {% endif %}
+        <br><br><br><br><br><br>
+    {%endif%}
+{%endblock%}

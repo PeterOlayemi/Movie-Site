@@ -1,0 +1,11 @@
+<h1>Lymphoid</h1>
+<i>...home of entertainment...</i><br><br>
+<a href="{% url 'home' %}">Home</a><br><br>
+<h3>Categories</h3>
+{%for cat in cat%}<a href="{% url 'category' cat.area %}">{{cat.area}}</a> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; {% endfor %}<br><br>
+<h2>Search Lymphoid</h2>
+<a href="{% url 'moviesearch' %}">Search Movie</a> &nbsp; &nbsp; <a href="{% url 'seriesearch' %}">Search Series</a>
+<br><hr><br>
+{%block content%}
+
+{%endblock%}
