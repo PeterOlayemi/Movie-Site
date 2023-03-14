@@ -4,7 +4,6 @@ from django.core.validators import FileExtensionValidator
 from django.utils import timezone
 
 import django.utils.timezone
-import uuid
 
 # Create your models here.
 
@@ -139,7 +138,6 @@ class Movie(models.Model):
         return self.title
 
 class Review(models.Model):
-    uuid = models.UUIDField(unique=True, default=uuid.uuid4, editable=False)
     writer = models.ForeignKey(User, on_delete=models.CASCADE)
     series = models.ForeignKey(Series, on_delete=models.CASCADE, blank=True, null=True)
     episode = models.ForeignKey(Episode, on_delete=models.CASCADE, blank=True, null=True)
