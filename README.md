@@ -17,6 +17,7 @@ A site that shows info (including trailer) about movies/series based on category
 ### 2. Migrate & Start Server
 * python manage.py makemigrations
 * python manage.py migrate
+* python manage.py createsuperuser
 * python manage.py runserver
 
 # Where To Find Me
